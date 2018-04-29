@@ -25,9 +25,20 @@ app.route("/api/players")
                     speed: "90",
                     technik: "70",
                     condition: "100",
-                    typ: "läufer"
+                    typ: "Läufer"
+                }
+            },
+            {
+                id: 2,
+                name: "Albert",
+                skills: {
+                    speed: "70",
+                    technik: "70",
+                    condition: "70",
+                    typ: "Kämpfer"
                 }
             }
+
         ];
         serverIo.sendResponse(res, players);
 
