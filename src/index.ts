@@ -16,7 +16,18 @@ const router = express.Router();
 
 app.route("/cc/api/players")
     .get((_, res: any) => {
-        const players: any[] = [];
+        const players: any[] = [
+            {
+                id: 1,
+                name: "Roland",
+                skills: {
+                    speed: "90",
+                    technik: "70",
+                    condition: "100",
+                    typ: "läufer"
+                }
+            }
+        ];
         serverIo.sendResponse(res, players);
 
     })
@@ -29,5 +40,5 @@ app.use("/", router);
 
 app.listen(process.env.PORT || 8080, () => {
     // tslint:disable-next-line:no-console
-    console.log("Coffe Cleaner app listening on port 8080!");
+    console.log("Teams app listening on port 8080!");
 });

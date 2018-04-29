@@ -15,7 +15,7 @@
         ],
         "quotemark": [
             true,
-            "double"
+            "single"
         ],
         "trailing-comma": false,
         "no-var-requires": false,
