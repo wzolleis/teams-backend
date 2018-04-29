@@ -12,6 +12,7 @@ app.use(cors());
 
 const router = express.Router();
 
+
 // initDatabase();
 
 app.route("/api/players")
@@ -40,5 +41,6 @@ app.use("/", router);
 
 app.listen(process.env.PORT || 8080, () => {
     // tslint:disable-next-line:no-console
-    console.log("Teams app listening on port 8080!");
+    const port: string = process.env.PORT || "8080";
+    console.log(`Teams app listening on port ${port}!`);
 });
