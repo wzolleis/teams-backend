@@ -8,10 +8,9 @@ after_success:
 - npm run typedoc
 - npm pack
 deploy:
-  matrix:
   - provider: pages
     skip_cleanup: true
-    local_dir: docs/
+    local_dir: ./docs/
     github_token: "$GITHUB_TOKEN"
   - provider: heroku
     app: teams-backend

@@ -4,4 +4,6 @@ tsconfig.json
 docs/
 dist/test/
 .npmignore
+token
 teams-backend-*.tgz
+ENV
