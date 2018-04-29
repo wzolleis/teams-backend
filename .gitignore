@@ -60,6 +60,7 @@ typings/
 # build directory
 build/
 dist/
+docs/
 
 *.iml
 token
