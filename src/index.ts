@@ -14,7 +14,7 @@ const router = express.Router();
 
 // initDatabase();
 
-app.route("/cc/api/players")
+app.route("/api/players")
     .get((_, res: any) => {
         const players: any[] = [
             {
