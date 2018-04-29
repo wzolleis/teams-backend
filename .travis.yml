@@ -16,7 +16,9 @@ deploy:
     local_dir: ./docs/
     github_token: "$GITHUB_TOKEN"
   - provider: heroku
-    app: teams-backend
+    app:
+      master: teams-backend
+      development: teams-backend-dev
     skip_cleanup: true
     api_key:
       secure: GjyJj4SuAOsmCfeZrPbiokSHvguIvkbhjaJWrgauhEqFW8jc3By3hzkPEZkvB64klzsoDnrkYEpViLLx/Mp44liqSxHPm0u/pauTdBXCgIMbpjgjBsBW0oNGGQ36/o+CIcK9v72s2+r3UvGULof0/76JGGw4GRqLLrITG22yBikVlhxygzPlv0Cc7EG8aDMUpAaGvKxGpeGkhofL5NCgt0zBIH1TUoEAq0qcOhR/OXvVn5ynec05UYWfj5jSFD3XIi4Ep57ZNcxfJNU+EHDz+FzpUG9mCpmdN/djQHj3E4yBCtUTEuVD6TH4wL5I/Aeb/wGImUvKNrO4Xxx35vesKKdoo+/pxb0KA8qG1Xte4WCgdIhuMoW4G1t8jyTuejUzXg7XE4Fx70hQ9AWJT2DF6P0es6i17EmhFnzXvubuFtI9yB7WFfgkhxjfgHtgd2ZubzIw/oVcrjFdrhY00YosvVgs0bGLu633Ya4R3ImStbbNSyUEUhvvSARprLO/88J0lsBFR3N5XKaUcYgcKVWMxdxAWK3PRpVnwx3YsFrG0YdAEP8pOyMuU6Xnc0yo/T1J8U7iQgwoNy4S/TBLj+ExP5ze/k50Y98TuPTUtEhavBt+tN4BFMVXAXYStmQqGrTlSDrEV/tuoN0LEKL+zS9ZROcnRasZOhKJGg7yHKG5MUI=
