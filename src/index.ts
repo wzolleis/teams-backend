@@ -21,21 +21,23 @@ app.route("/api/players")
             {
                 id: 1,
                 name: "Roland",
+                typ: "Läufer",
+                overall: 80,
                 skills: {
                     speed: "90",
                     technik: "70",
-                    condition: "100",
-                    typ: "Läufer"
+                    condition: "100"
                 }
             },
             {
                 id: 2,
                 name: "Albert",
+                typ: "Kämpfer",
+                overall: 70,
                 skills: {
                     speed: "70",
                     technik: "70",
                     condition: "70",
-                    typ: "Kämpfer"
                 }
             }
 
