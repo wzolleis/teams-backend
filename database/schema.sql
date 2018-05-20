@@ -1,5 +1,5 @@
 CREATE TABLE player (
-  id              int primary key,
+  id              SERIAL primary key,
   name            varchar(100),
   overall         int,
   typ             varchar(100),
