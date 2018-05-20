@@ -34,7 +34,7 @@ app.route("/api/players")
 
 app.get('/db', async (_, res) => {
     try {
-        const result = await databaseIo.query('SELECT * FROM player');
+        const result = await databaseIo.query('SELECT * FROM player order by name desc');
         serverIo.sendResponse(res, result.rows);
     } catch (err) {
         console.error(err);
