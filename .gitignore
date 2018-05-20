@@ -57,6 +57,8 @@ typings/
 # dotenv environment variables file
 .env
 
+.idea/dataSources/
+
 # build directory
 build/
 dist/
