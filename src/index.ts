@@ -14,10 +14,12 @@ app.use(cors());
 
 const router = express.Router();
 
+// ssl wenn wir auf Heroku gestartet werden, kein ssl wenn die db lokal angebunden ist
+const dbUseSsl: boolean = !process.env.DATABASE_LOCAL;
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: true
+    ssl: dbUseSsl
 });
 
 
@@ -62,7 +64,7 @@ app.get('/db', async (_, res) => {
     try {
         const client = await pool.connect()
         const result = await client.query('SELECT * FROM player');
-        serverIo.sendResponse(res, result);
+        serverIo.sendResponse(res, result.rows);
         client.release();
     } catch (err) {
         console.error(err);
@@ -76,6 +78,6 @@ app.listen(process.env.PORT || 8080, () => {
     // tslint:disable-next-line:no-console
     const port: string = process.env.PORT || "8080";
     const dbUrl: string = process.env.DATABASE_URL || 'n/a';
-    console.log(`connect to db with ${dbUrl}`);
+    console.log(`connect to db with ${dbUrl} and ssl = ${dbUseSsl}`);
     console.log(`Teams app listening on port ${port}!`);
 });
