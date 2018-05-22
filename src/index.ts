@@ -1,6 +1,6 @@
 import bodyParser from "body-parser";
 import cors from "cors";
-import express from "express";
+import express, { Request } from "express";
 import logger from "morgan";
 import { serverIo } from "./serverio/ServerIO";
 
@@ -30,6 +30,18 @@ app.route("/api/players")
     })
     .post( async (_: any, res: any) => {
         serverIo.sendResponse(res);
+    });
+
+app.route("/api/player/:id")
+    .get(async (request: Request, res: any) => {
+        try {
+            const id: number = request.params.id;
+            const player: Player = await playerApi.findOne(id);
+            serverIo.sendResponse(res, player);
+        } catch (err) {
+            console.error(err);
+            serverIo.sendError(res, 404, err);
+        }
     });
 
 app.get('/db', async (_, res) => {

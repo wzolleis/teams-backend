@@ -21,6 +21,13 @@ class DatabaseIO {
         return result;
     }
 
+    queryWithParams = async (query: string, values: any[]): Promise<any> => {
+        const client = await this.connect();
+        const result: object = await client.query(query, values);
+        await this.release(client);
+        return result;
+    }
+
     release = async (client: PoolClient) => {
         client.release();
     }
