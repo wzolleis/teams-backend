@@ -42,6 +42,17 @@ app.route("/api/player/:id")
             console.error(err);
             serverIo.sendError(res, 404, err);
         }
+    })
+    .post( async (request: any, res: any) => {
+        try {
+            const id: number = request.params.id;
+            const player2update: Player = request.body;
+            const player: Player = await playerApi.update(id, player2update);
+            serverIo.sendResponse(res, player);
+        } catch (err) {
+            console.error(err);
+            serverIo.sendError(res, 404, err);
+        }
     });
 
 app.get('/db', async (_, res) => {
