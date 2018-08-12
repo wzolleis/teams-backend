@@ -4,6 +4,9 @@ const passport = require('passport');
 
 import { Strategy as LocalStrategy } from 'passport-local';
 
+/**
+ * initialisiert Passport - siehe https://entwickler.de/online/javascript/passport-579800408.html
+ */
 
 export const initPassport = () => {
     passport.use(new LocalStrategy(

@@ -73,10 +73,14 @@ app.get('/db', async (_, res) => {
 
 app.get(
     '/secret', passport.authenticate('local'), (req, res) => {
-        console.log('secret function', req);
+        console.log('secret function mit User:', req.query.username);
         res.send('Hello Authenticated User!');
     }
 );
+
+app.post('/login', passport.authenticate('local',
+    { successRedirect: '/db', failureRedirect: '/login' }));
+
 
 app.use('/', router);
 
