@@ -20,3 +20,5 @@ export type PlayerRow = {
     skill_technik: number,
     skill_condition: number
 };
+
+export type User = {};
