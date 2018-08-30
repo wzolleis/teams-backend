@@ -8,10 +8,10 @@ import { Strategy as LocalStrategy } from 'passport-local';
  * initialisiert Passport - siehe https://entwickler.de/online/javascript/passport-579800408.html
  */
 
-export const initPassport = () => {
+export const initPassport = (trustedUser: string, trustedPassword: string) => {
     passport.use(new LocalStrategy(
         function(username: string, password: string, done) {
-            if (username === 'admin' && password === 'secret') {
+            if (username === trustedUser && password === trustedPassword) {
                 return done(null, {name: 'admin'});
             }
             return done(null, false);

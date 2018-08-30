@@ -3,29 +3,53 @@ import cors from 'cors';
 import express, { Request } from 'express';
 import logger from 'morgan';
 import { serverIo } from './serverio/ServerIO';
+
 const passport = require('passport');
 
 import { databaseIo, dbUseSsl } from './database/DatabaseIO';
 import { playerApi } from './player/PlayerApi';
 import { Player } from './types';
-import {initPassport} from './authentication/PassportConfig'
+import { initPassport } from './authentication/PassportConfig'
+
+import session from 'express-session'
 
 // https://entwickler.de/online/javascript/passport-579800408.html
 // authentication initialisieren
-initPassport();
+initPassport(process.env.username || 'admin', process.env.password || 'secret');
+
+const isAuthenticated = (req: Request, res: any, next: any) => {
+    console.log('secret function mit User:' + req.query.username);
+
+    if (req.isAuthenticated()) {
+        return next();
+    }
+
+    res.redirect('/uups');
+
+};
+
+const STRATEGY : string = 'local';
 
 const app = express();
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(cors());
+app.use(session({
+    secret: 'MyVoiceIsMyPassportVerifyMe',
+    resave: false,
+    saveUninitialized: true
+}));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
 
 const router = express.Router();
 
+
+
 app.route('/api/players')
-    .get(async (_, res: any) => {
+    .get(isAuthenticated, async (_, res: any) => {
         try {
             const players: Player[] = await playerApi.findAll();
             serverIo.sendResponse(res, players);
@@ -39,7 +63,7 @@ app.route('/api/players')
     });
 
 app.route('/api/player/:id')
-    .get(async (request: Request, res: any) => {
+    .get(isAuthenticated, async (request: Request, res: any) => {
         try {
             const id: number = request.params.id;
             const player: Player = await playerApi.findOne(id);
@@ -61,26 +85,42 @@ app.route('/api/player/:id')
         }
     });
 
-app.get('/db', async (_, res) => {
+app.get('/db', isAuthenticated, async (_, res) => {
     try {
         const result = await databaseIo.query('SELECT * FROM player order by name desc');
         serverIo.sendResponse(res, result.rows);
     } catch (err) {
         console.error(err);
-        res.send('Error ' + err);
+        serverIo.sendError(res, 500, err);
     }
 });
 
 app.get(
-    '/secret', passport.authenticate('local'), (req, res) => {
-        console.log('secret function mit User:', req.query.username);
-        res.send('Hello Authenticated User!');
+    '/secret', isAuthenticated, (req, res) => {
+        console.log('secret function mit User:' + req.query.username);
+        res.send('Hello Authenticated User: ' + req.query.username);
+    });
+
+
+
+app.post('/login', passport.authenticate(STRATEGY,
+    {successRedirect: '/db', failureRedirect: '/uups'}));
+
+app.route('/uups')
+    .all((_, res: any) => {
+        serverIo.sendError(res, 500, 'uups');
+    });
+
+app.post(
+    '/forbidden', async(_, res) => {
+        serverIo.sendError(res, 403, 'login to see my content');
     }
 );
 
-app.post('/login', passport.authenticate('local',
-    { successRedirect: '/db', failureRedirect: '/login' }));
-
+app.get('/logout', (req: Request, res: any) => {
+    req.logout();
+    res.redirect('/');
+});
 
 app.use('/', router);
 
@@ -93,3 +133,4 @@ app.listen(process.env.PORT || 8080, () => {
     }
     console.log(`Teams app listening on port ${port}!`);
 });
+
