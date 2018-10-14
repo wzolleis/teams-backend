@@ -18,13 +18,11 @@ import session from 'express-session'
 initPassport(process.env.username || 'admin', process.env.password || 'secret');
 
 const isAuthenticated = (req: Request, res: any, next: any) => {
-    console.log('secret function mit User:' + req.query.username);
-
     if (req.isAuthenticated()) {
         return next();
     }
 
-    res.redirect('/uups');
+    res.redirect('/login');
 
 };
 
@@ -61,6 +59,17 @@ app.route('/api/players')
     .post(async (_: any, res: any) => {
         serverIo.sendResponse(res);
     });
+
+app.route('/api/public/players')
+    .get( async (_, res: any) => {
+        try {
+            const players: Player[] = await playerApi.findAll();
+            serverIo.sendResponse(res, players);
+        } catch (err) {
+            console.error(err);
+            res.send('Error ' + err);
+        }
+    })
 
 app.route('/api/player/:id')
     .get(isAuthenticated, async (request: Request, res: any) => {
