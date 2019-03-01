@@ -13,7 +13,8 @@
     "typedoc": "typedoc --out ./docs --mode modules --tsconfig ./tsconfig.json ./src/",
     "posttypedoc": "shx cp .nojekyll docs/.nojekyll",
     "live": "npm run build:live",
-    "build:live": "nodemon --exec ./node_modules/.bin/ts-node -- ./src/index.ts"
+    "build:live": "nodemon --exec ./node_modules/.bin/ts-node -- ./src/index.ts",
+    "heroku-postbuild": "echo Skip build on Heroku"
   },
   "main": "./dist/src/index.js",
   "types": "./dist/src/index.d.js",
@@ -77,5 +78,6 @@
   },
   "engines": {
     "node": "8.11.4"
-  }
+  },
+  "heroku-run-build-script": true
 }
